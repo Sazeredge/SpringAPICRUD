@@ -77,7 +77,8 @@ public class JobDAO{
 		
 		openConnection();
 //		session.update(job);
-		Query query = session.createQuery("update Job set title=:title, description=:description, status=:status");
+		Query query = session.createQuery("update Job set title=:title, description=:description, status=:status where id=:id");
+		query.setParameter("id", job.getId());
 		query.setParameter("title", job.getTitle());
 		query.setParameter("description", job.getDescription());
 		query.setParameter("status", job.isStatus());
