@@ -34,6 +34,7 @@ public class JobDAO{
 		openConnection();
 		
 		session.save(e);
+//		Query query = session.createQuery("insert into Job (title, description, status)"+e.getTitle()+","+e.getDescription()+","+e.isStatus());
 		
 		closeConnection();
 	}
@@ -70,21 +71,28 @@ public class JobDAO{
 		if(e.getDescription() != null) {
 			job.setDescription(e.getDescription());
 		}
-		if(Boolean.compare(e.isStatus(), job.isStatus()) > 0) {
+		if(Boolean.compare(e.isStatus(), job.isStatus()) < 0 || Boolean.compare(e.isStatus(), job.isStatus()) > 0) {
 			job.setStatus(e.isStatus());
 		}
 		
 		openConnection();
-		session.update(job);
+//		session.update(job);
+		Query query = session.createQuery("update Job set title=:title, description=:description, status=:status");
+		query.setParameter("title", job.getTitle());
+		query.setParameter("description", job.getDescription());
+		query.setParameter("status", job.isStatus());
+		query.executeUpdate();
 		closeConnection();
 	}
 
 	public void delete(Long id) {
-		Job job = getItem(id);
+//		Job job = getItem(id);
 
 		openConnection();
 		
-		session.delete(job);
+//		session.delete(job);
+		Query query = session.createQuery("delete Job where id="+id);
+		query.executeUpdate();
 		
 		closeConnection();
 	}
